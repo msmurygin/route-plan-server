@@ -1,10 +1,12 @@
 package ru.ltmanagement.common.service.infor;
 
+import ru.ltmanagement.exceptions.LoginFailedException;
 import ru.ltmanagement.ordermanagement.dto.OrderCloseDto;
 import ru.ltmanagement.security.controller.response.AuthResponse;
 
+
 public interface InforClientService {
-    AuthResponse login(String userId, String password);
+    AuthResponse login(String userId, String password) throws LoginFailedException;
     void release(String waveKey);
     void allocate(String orderKey);
     void unAllocate(String orderKey);

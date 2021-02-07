@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import ru.ltmanagement.user.dto.UserDto;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Repository
@@ -53,7 +54,7 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public UserDto getUserByUserName(String loginId) {
+    public Optional<UserDto> getUserByUserName(String loginId) {
         MapSqlParameterSource params = new MapSqlParameterSource("loginId", loginId);
         List<UserDto> userList = jdbcTemplate.query(SELECT_USER, params, USER_MAPPER);
         List<String> roles = getRoleByUserName(loginId).stream()
@@ -61,14 +62,18 @@ public class UserDaoImpl implements UserDao {
                 .map(roleName -> roleName.endsWith("Admin") ? "ROLE_ADMIN": roleName)
                 .map(roleName -> roleName.endsWith("User") ? "ROLE_USER": roleName)
                 .collect(Collectors.toList());
-        UserDto userDto = userList.get(0);
-        userDto.setRole(roles);
-        userDto.setAdmin(
-                roles.stream()
-                        .filter(role-> role.equalsIgnoreCase("ROLE_ADMIN"))
-                        .count() > 0
-        );
-        return userDto;
+
+        if (userList.size() == 1){
+            UserDto userDto = userList.get(0);
+            userDto.setRole(roles);
+            userDto.setAdmin(
+                    roles.stream()
+                            .filter(role-> role.equalsIgnoreCase("ROLE_ADMIN"))
+                            .count() > 0
+            );
+            return Optional.ofNullable(userDto);
+        }
+        return Optional.empty();
     }
 
     @Override

@@ -13,7 +13,9 @@ import ru.ltmanagement.ordermanagement.dto.OrderLineDto;
 import ru.ltmanagement.ordermanagement.dto.OrderMgrDto;
 import ru.ltmanagement.user.dao.UserDao;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import static ru.ltmanagement.ordermanagement.dao.OrderManagementDao.ACTION_UN_ALLOCATE;
@@ -63,16 +65,36 @@ public class OrderCancelAllocationServiceImpl implements OrderCancelAllocationSe
                 return  response(orderLine.getOrderKey(), UN_ALLOCATE_HEADER, UN_ALLOCATE_IN_QUEUE_MESSAGE);
             }
         }
-        AllocationProcessingTypeResultDto allocProcTypeResult = orderMgrDao.getAllocationProcessingType(orderMgrDto.getExternalLoadId(), NULL, loginId, ACTION_UN_ALLOCATE);
+        AllocationProcessingTypeResultDto allocProcTypeResult = getAllocationProcessingTypeResultDto(orderMgrDto, loginId, ACTION_UN_ALLOCATE);
         if (allocProcTypeResult == AllocationProcessingTypeResultDto.SYNC_OPERATION){
-            List<String> orderKeys = orderDao.getOrdersByExternalLoadId(orderMgrDto.getExternalLoadId()).stream()
+
+            List<String> orderKeys = Objects.isNull(orderMgrDto.getOrderKey()) ?
+                    orderDao.getOrdersByExternalLoadId(orderMgrDto.getExternalLoadId()) :
+                    Arrays.asList(orderMgrDto.getOrderKey());
+
+            List<String> orders = orderKeys.stream()
                     .filter(orderKey -> !transmitLogDao.isOrderPickedSentToCustomerHost(orderKey))
                     .collect(Collectors.toList());
-            orderKeys.forEach(orderKey -> inforClientService.unAllocate(orderKey));
+
+            orders.forEach(orderKey -> inforClientService.unAllocate(orderKey));
             return createMultipleOrderAllocationResultMessage(orderKeys);
         }else{
-            return response(orderMgrDto.getLoadUsr2(), UN_ALLOCATE_HEADER, UN_ALLOCATE_IN_QUEUE_MESSAGE);
+            return response(
+                    Objects.isNull(orderMgrDto.getLoadUsr2()) ?
+                            orderMgrDto.getOrderKey() :
+                            orderMgrDto.getLoadUsr2(),
+                    UN_ALLOCATE_HEADER, UN_ALLOCATE_IN_QUEUE_MESSAGE
+            );
         }
+    }
+
+    private AllocationProcessingTypeResultDto getAllocationProcessingTypeResultDto(OrderMgrDto orderMgrDto, String loginId, int action) {
+        AllocationProcessingTypeResultDto actionResultDto;
+        if (Objects.isNull(orderMgrDto.getOrderKey()))
+            actionResultDto = orderMgrDao.getAllocationProcessingType(orderMgrDto.getExternalLoadId(), NULL, loginId, action);
+        else
+            actionResultDto = orderMgrDao.getAllocationProcessingType(NULL, orderMgrDto.getOrderKey(), loginId, action);
+        return actionResultDto;
     }
 
     private OrderManagementResponse createMultipleOrderAllocationResultMessage(List<String> allocated) {

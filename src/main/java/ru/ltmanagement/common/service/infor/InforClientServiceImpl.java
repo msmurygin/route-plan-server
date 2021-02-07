@@ -7,7 +7,6 @@ import ru.ltmanagement.exceptions.LoginFailedException;
 import ru.ltmanagement.exceptions.OrderCloseFailedException;
 import ru.ltmanagement.exceptions.ReleaseFailedException;
 import ru.ltmanagement.ordermanagement.dto.OrderCloseDto;
-import ru.ltmanagement.security.JwtProvider;
 import ru.ltmanagement.security.controller.response.AuthResponse;
 import ru.ltmanagement.user.dao.UserDao;
 import ru.ltmanagement.user.dto.UserDto;
@@ -29,8 +28,7 @@ public class InforClientServiceImpl implements InforClientService {
     @Autowired
     private UserDao userDao;
 
-    @Autowired
-    private JwtProvider jwtProvider;
+
     private static final String[] RUS = {"А","Б","В","Г","Д","Е","Ё","Ж","З","И","Й","К","Л","М","Н","О","П","Р","С","Т","У","Ф","Х","Ц","Ч","Ш","Щ","Ъ","Ы","Ь","Э","Ю","Я"};
     private static final String LOGIN_PROCEDURE =  "NSPRFOT08";
     private static final String ORDER_MGR_PROCEDURE =  "NSPRFPLROUTREP";
@@ -57,12 +55,11 @@ public class InforClientServiceImpl implements InforClientService {
     private final static String CREATE_INV_TASK_ERROR_MESSAGE = "Ошибка создания задачи на инвернтаризацию с параметрами %s, %s ";
     private final static String SEND_TO_HOST_ERROR_MESSAGE = "Ошибка отправки данных в гавную систему %s ";
 
-    public AuthResponse login(String userId, String password){
+    public AuthResponse login(String userId, String password)  throws LoginFailedException {
         String message = formatter.format(LOGIN_PROCEDURE, userId, String.format(LOGIN_STORED_PROCEDURE_MESSAGE, password));
         String response = tcpClient.send(message);
         msgProcessor.noErrorOrThrow(response, () -> new LoginFailedException(String.format(LOGIN_ERROR_MESSAGE,userId)));
-        UserDto userName = userDao.getUserByUserName(userId);
-        return new AuthResponse(userName,jwtProvider.generateToken(userId));
+        return null;
     }
 
     public void release(String waveKey){

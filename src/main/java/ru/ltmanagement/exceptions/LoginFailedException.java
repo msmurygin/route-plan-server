@@ -1,6 +1,8 @@
 package ru.ltmanagement.exceptions;
 
-public class LoginFailedException extends RuntimeException {
+import org.springframework.security.core.AuthenticationException;
+
+public class LoginFailedException extends AuthenticationException {
 
     public LoginFailedException(String msg){
         super(msg);

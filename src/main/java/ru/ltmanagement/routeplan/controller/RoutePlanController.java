@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -35,7 +36,7 @@ import ru.ltmanagement.routeplan.service.api.SkuStockService;
 import ru.ltmanagement.routeplan.transofrmer.RoutePlanRequestTransformer;
 
 import java.util.List;
-
+@CrossOrigin("http://localhost:4200")
 @RestController()
 @Slf4j
 public class RoutePlanController {
@@ -74,6 +75,7 @@ public class RoutePlanController {
     public RouteResponse getRoutePlanRoutes(){
         return new RouteResponse(codeLookUpService.getOrderRoutes());
     }
+
 
     @GetMapping(path = ControllerURL.ROUTE_PLAN_CODE_STATUS_URL, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public CodeLookUpResponse getRoutePlanStatuses(){
