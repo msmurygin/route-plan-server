@@ -44,7 +44,7 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter implements Web
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**").allowedOrigins("http://localhost:4200");
+        registry.addMapping("/**").allowedOrigins("http://localhost:4200","http://sekbtt-wmsapp01.myway.local:4200/","http://sekbtt-wmsapp01.myway.local");
     }
 
     @Override

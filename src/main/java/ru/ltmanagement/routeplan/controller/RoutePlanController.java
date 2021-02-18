@@ -36,7 +36,7 @@ import ru.ltmanagement.routeplan.service.api.SkuStockService;
 import ru.ltmanagement.routeplan.transofrmer.RoutePlanRequestTransformer;
 
 import java.util.List;
-@CrossOrigin("http://localhost:4200")
+@CrossOrigin( origins = {"http://localhost:4200", "http://sekbtt-wmsapp01.myway.local:4200/" ,"http://sekbtt-wmsapp01.myway.local/"})
 @RestController()
 @Slf4j
 public class RoutePlanController {

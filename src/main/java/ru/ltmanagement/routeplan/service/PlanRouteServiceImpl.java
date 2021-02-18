@@ -66,5 +66,6 @@ public class PlanRouteServiceImpl implements RoutePlanService {
     @Transactional
     public void updateTable(RoutePlanPutRequest request) {
         planRouteTableDAO.updateTable(request.getDetails());
+        planRouteTableDAO.updateOrderListByExternalLoadId(request.getDetails());
     }
 }

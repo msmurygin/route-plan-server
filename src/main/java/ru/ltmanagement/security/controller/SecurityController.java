@@ -28,7 +28,7 @@ public class SecurityController {
     @Autowired
     protected LoginService loginService;
 
-    @CrossOrigin(origins = "http://localhost:4200", methods = { RequestMethod.GET, RequestMethod.OPTIONS})
+    @CrossOrigin(origins = {"http://localhost:4200", "http://sekbtt-wmsapp01.myway.local:4200/"}, methods = { RequestMethod.GET, RequestMethod.OPTIONS})
     @GetMapping("/public/logout")
     public ResponseEntity<String> logout(HttpServletRequest request, HttpServletResponse response) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -39,7 +39,7 @@ public class SecurityController {
     }
 
 
-    @CrossOrigin(origins = "http://localhost:4200", methods = { RequestMethod.GET, RequestMethod.OPTIONS})
+    @CrossOrigin(origins = {"http://localhost:4200", "http://sekbtt-wmsapp01.myway.local:4200/" ,"http://sekbtt-wmsapp01.myway.local/"}, methods = { RequestMethod.GET, RequestMethod.OPTIONS})
     @GetMapping("/public/login")
     public ResponseEntity<LoginResponse> login(HttpServletRequest request) {
         String authorization  = request.getHeader(AUTH_HEADER);

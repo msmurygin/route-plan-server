@@ -14,9 +14,12 @@ import ru.ltmanagement.routeplan.dto.PlanRouteConfigurationDto;
 import ru.ltmanagement.routeplan.dto.RoutePlanRequestDto;
 import ru.ltmanagement.user.dto.UserDto;
 
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -47,8 +50,12 @@ public class PlanRouteTableDao {
 
     private static final String UPDATE_TABLE_SQL = "UPDATE PLAN_ROUTE_MAIN set ACTUALARRIVALDATE =:actualArrivalDate," +
             "GONE_TS =:truckLeavingDate, SUSR2 =:susr2, DOOR =:door, PACKINGLOCATION =:loc WHERE ROW_N =:id";
+
     private static final String UPDATE_ORDER_LIST_SQL = "UPDATE PLAN_ROUTE_ORDER_LIST SET DOOR=:door, PACKINGLOCATION=:loc," +
             "ACTUALARRIVALDATE=:arrival, GONE_TS=:leaving, editdate=:editdate, STOP=:stop WHERE ORDERKEY = :orderkey";
+
+    private static final String UPDATE_ORDER_LIST_BY_EXT_LOAD_ID_SQL = "UPDATE PLAN_ROUTE_ORDER_LIST SET DOOR=:door, PACKINGLOCATION=:loc," +
+            "ACTUALARRIVALDATE=:arrival, GONE_TS=:leaving, editdate=:editdate WHERE EXTERNALLOADID = :externalloadid";
 
     private static final String AND = " AND ";
     private static final String SQL_IN_VALUES_SEPARATOR = ",";
@@ -57,6 +64,8 @@ public class PlanRouteTableDao {
     @Value("${date.format}")
     private String datePattern;
 
+    @Value("${date.time.format}")
+    private String dateTimePattern;
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
@@ -67,17 +76,17 @@ public class PlanRouteTableDao {
             DetailTableDto.builder()
                     .rowId(rs.getString("ROW_N"))
                     .stdCube(rs.getBigDecimal("STDCUBE"))
-                    .actualArrivalDate(dateToString(rs.getDate("ACTUALARRIVALDATE")))
-                    .addDate(dateToString(rs.getDate("ADDDATE")))
-                    .loadStart(dateToString(rs.getDate("BEGIN_LOAD")))
+                    .actualArrivalDate(dateToString(rs.getTimestamp("ACTUALARRIVALDATE")))
+                    .addDate(dateToString(rs.getTimestamp("ADDDATE")))
+                    .loadStart(dateToString(rs.getTimestamp("BEGIN_LOAD")))
                     .loadDuration(rs.getString("BETWEEN_BEGIN_END_LOAD"))
                     .routeClosed(rs.getInt("CLOSED_ROUTE"))
-                    .deliveryDate(dateToString(rs.getDate("DELIVERYDATE")))
+                    .deliveryDate(dateToString(rs.getTimestamp("DELIVERYDATE")))
                     .door(rs.getString("DOOR"))
                     .driverName(rs.getString("DRIVERNAME"))
-                    .loadEnd(dateToString(rs.getDate("END_LOAD")))
+                    .loadEnd(dateToString(rs.getTimestamp("END_LOAD")))
                     .externalloadid(rs.getString("EXTERNALLOADID"))
-                    .truckLeaving(dateToString(rs.getDate("GONE_TS")))
+                    .truckLeaving(dateToString(rs.getTimestamp("GONE_TS")))
                     .itemsInRoute(rs.getInt("kol_strok"))
                     .controlled(rs.getInt("kontrol"))
                     .loadUsr1(rs.getString("LOADUSR1"))
@@ -85,12 +94,12 @@ public class PlanRouteTableDao {
                     .leftToControl(rs.getInt("NEED_CONTROL_QTY"))
                     .leftToPick(rs.getInt("NEED_PICK_QTY"))
                     .packingLocation(rs.getString("PACKINGLOCATION"))
-                    .routeReady(dateToString(rs.getDate("READY_ROUTE")))
+                    .routeReady(dateToString(rs.getTimestamp("READY_ROUTE")))
                     .reasonCode(rs.getInt("REASON_CODE"))
                     .replenishmentTask(rs.getString("replenisment_task"))
                     .route(rs.getString("ROUTE"))
                     .shippedItems(rs.getInt("SELECTEDCARTONID_QTY"))
-                    .shipped(dateToString(rs.getDate("SHIPED")))
+                    .shipped(dateToString(rs.getTimestamp("SHIPED")))
                     .showReason(rs.getInt("SHOW_REASON"))
                     .shift(rs.getString("SMENA"))
                     .picked(rs.getInt("sobrano"))
@@ -220,11 +229,11 @@ public class PlanRouteTableDao {
         }).orElse(null);
     }
 
-    public String dateToString(@Nullable java.sql.Date date){
-        return  Optional.ofNullable(date).map(value -> {
-            LocalDate localDate = date.toLocalDate();
-            DateTimeFormatter dateFormat  = DateTimeFormatter.ofPattern(datePattern);
-            return dateFormat.format(localDate);
+    public String dateToString(@Nullable Timestamp timestamp){
+        return  Optional.ofNullable(timestamp).map(value -> {
+            Date date = new Date();
+            date.setTime(timestamp.getTime());
+            return new SimpleDateFormat(dateTimePattern).format(date);
         }).orElse(null);
     }
 
@@ -257,6 +266,23 @@ public class PlanRouteTableDao {
             paramsArray[i] = params;
         }
         jdbcTemplate.batchUpdate(UPDATE_TABLE_SQL, paramsArray);
+
+
+    }
+    public void updateOrderListByExternalLoadId(List<DetailTableDto> details) {
+        MapSqlParameterSource[] paramsArray = new MapSqlParameterSource[details.size()];
+        for (int i = 0; i < details.size(); i++) {
+            DetailTableDto detail = details.get(i);
+            MapSqlParameterSource params = new MapSqlParameterSource()
+                    .addValue("door", detail.getDoor())
+                    .addValue("loc", detail.getPackingLocation())
+                    .addValue("arrival", detail.getActualArrivalDate())
+                    .addValue("leaving", detail.getTruckLeaving())
+                    .addValue("editdate", LocalDateTime.now())
+                    .addValue("externalloadid", detail.getExternalloadid());
+            paramsArray[i] = params;
+        }
+        jdbcTemplate.batchUpdate(UPDATE_ORDER_LIST_BY_EXT_LOAD_ID_SQL, paramsArray);
     }
 
     public void updateOrderList(List<OrderListPutRequestDto> orderList) {

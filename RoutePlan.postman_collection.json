@@ -1,0 +1,765 @@
+{
+	"info": {
+		"_postman_id": "2f0ff2da-b545-4560-bb3a-5015bc28b311",
+		"name": "RoutePlan",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "RouteHeaderDetailTable",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"content-type": true
+				},
+				"disableCookies": false
+			},
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "800e4961-e16c-4581-a605-ef0bead5d299",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "user",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"byShifts\": true\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8082/api/private/headertable",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"api",
+						"private",
+						"headertable"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Codelkup",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{server}}/api/private/codelkup?listName=ORDERTYPE",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"api",
+						"private",
+						"codelkup"
+					],
+					"query": [
+						{
+							"key": "listName",
+							"value": "ORDERTYPE"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Routes",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "123",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "linda",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{server}}/api/private/routes",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"api",
+						"private",
+						"routes"
+					],
+					"query": [
+						{
+							"key": "listName",
+							"value": "ORDERTYPE",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Statuses",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{server}}/api/private/statuses",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"api",
+						"private",
+						"statuses"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ReplenishmentTask",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"changePriority\": false,\n\t\"externLoadId\": \" 5VW ICSOARAD\",\n\t\"priorityValue\": 0\n}"
+				},
+				"url": {
+					"raw": "{{server}}/api/private/replenishmenttask",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"api",
+						"private",
+						"replenishmenttask"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ReplenishmentPriority GET Records",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"changePriority\": false,\n\t\"externLoadId\": \" 5VW ICSOARAD\",\n\t\"priorityValue\": 0\n}"
+				},
+				"url": {
+					"raw": "{{server}}/api/private/replenishmenttask",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"api",
+						"private",
+						"replenishmenttask"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "OrderList",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{server}}/api/private/orderlist?externalLoadId= 5VW HSM02RAD",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"api",
+						"private",
+						"orderlist"
+					],
+					"query": [
+						{
+							"key": "externalLoadId",
+							"value": " 5VW HSM02RAD"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ActiveUsers",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{server}}/api/private/activeusers",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"api",
+						"private",
+						"activeusers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "OrderDetail",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{server}}/api/private/orderdetail?orderKey=0000389326",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"api",
+						"private",
+						"orderdetail"
+					],
+					"query": [
+						{
+							"key": "orderKey",
+							"value": "0000389326"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Configuration",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{server}}/api/private/config",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"api",
+						"private",
+						"config"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "SkuStock",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{server}}/api/private/skustock?sku=015-056",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"api",
+						"private",
+						"skustock"
+					],
+					"query": [
+						{
+							"key": "sku",
+							"value": "015-056"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ProblemList",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"externalLoadId\": \" 5VW ICCOJRAD\"\n}"
+				},
+				"url": {
+					"raw": "{{server}}/api/private/problems",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"api",
+						"private",
+						"problems"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "NSqlConfig",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{server}}/api/private/nsqlconfig?configKey=LT_LANEVOLUME",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"api",
+						"private",
+						"nsqlconfig"
+					],
+					"query": [
+						{
+							"key": "configKey",
+							"value": "LT_LANEVOLUME"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "version",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{server}}/api/public/version",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"api",
+						"public",
+						"version"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "release-orders",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"loadUsr2\": \"30023\",\n\t\"externalLoadId\": \"e224\"\n}"
+				},
+				"url": {
+					"raw": "{{server}}/api/private/orders/release",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"api",
+						"private",
+						"orders",
+						"release"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PickListReport",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"loadUsr2\": \"30023\",\n\t\"externalLoadId\": \" 5VW IDX7GRAD\"\n}"
+				},
+				"url": {
+					"raw": "{{server}}/api/private/reports/url?reportName=rep_LoadPrint.rptdesign&format=html&paramName=LoadId",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"api",
+						"private",
+						"reports",
+						"url"
+					],
+					"query": [
+						{
+							"key": "reportName",
+							"value": "rep_LoadPrint.rptdesign"
+						},
+						{
+							"key": "format",
+							"value": "html"
+						},
+						{
+							"key": "paramName",
+							"value": "LoadId"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "login",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Username",
+						"value": "ltm",
+						"type": "text"
+					},
+					{
+						"key": "Password",
+						"value": "ltm",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"username\": \"erin\",\n\t\"password\" : \"123\"\n}"
+				},
+				"url": {
+					"raw": "{{server}}/api/public/login",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"api",
+						"public",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "logout",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Username",
+						"value": "ltm",
+						"type": "text"
+					},
+					{
+						"key": "Password",
+						"value": "ltm",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{server}}/api/public/logout",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"api",
+						"public",
+						"logout"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "SkuClaims",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": ""
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetClaims",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": ""
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetClaimsDetail",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": ""
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetClaimsDetailBySku",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"claimsNumber\": \"ЕКБ-022386\",\n\t\"sku\" : \"463-354\"\n}"
+				},
+				"url": {
+					"raw": "{{server}}/api/private/skuclaimsdetail",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"api",
+						"private",
+						"skuclaimsdetail"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CreateInvTask",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"claimsNumber\": \"ЕКБ-022386\",\n\t\"sku\" : \"463-354\"\n}"
+				},
+				"url": {
+					"raw": "{{server}}/api/private/createtasks",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"api",
+						"private",
+						"createtasks"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UpdateReplenishmentPriority",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": ""
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Locations",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"locationType\": \"DOOR\",\n\t\"locationCategory\": \"DOOR\"\n}"
+				},
+				"url": {
+					"raw": "{{server}}/api/private/location",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"api",
+						"private",
+						"location"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "OrderListPut",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"door\": \"VOROTA1\",\n\"orderKey\": \"0000266613\",\n\"packingLocation\": \"EZUK1\"\n}"
+				},
+				"url": {
+					"raw": "{{server}}/api/private/orderlist",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"api",
+						"private",
+						"orderlist"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
