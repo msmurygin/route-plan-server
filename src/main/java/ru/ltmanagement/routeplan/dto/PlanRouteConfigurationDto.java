@@ -8,7 +8,7 @@ import lombok.Data;
 public class PlanRouteConfigurationDto {
     private int serialKey;//просто ключ
     private String userKey;//логин пользователя
-    private boolean hideNotFinishedTask;//не отображать не завершенные задачи
+    private boolean  hideNotFinishedTask;//не отображать не завершенные задачи
     private boolean showLastShiftNotFinishedTask;//отображать не завершенные задачи за прошлую смену
     private boolean showNotFinishedTaskInPeriod;//отображать не завершенные задачи за заданый промежуток
     private boolean showAllNotFinishedTask;//отображать все не завершенные задачи

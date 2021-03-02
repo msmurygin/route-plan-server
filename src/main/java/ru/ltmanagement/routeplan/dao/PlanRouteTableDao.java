@@ -31,7 +31,7 @@ public class PlanRouteTableDao {
     private static final String DELIVERY_DATE_BETWEEN = " DELIVERYDATE between :startDate and :endDate ";
     private static final String DELIVERY_DATE = " DELIVERYDATE >= :startDate ";
     private static final String NOT_FINISHED_TASK_SQL =" EXTERNALLOADID in (select distinct EXTERNALLOADID from PLAN_ROUTE_ORDER_LIST " +
-            "where ORDERKEY in (select distinct ORDERKEY from ORDERDETAIL (nolock) where OPENQTY > 0) ) ";
+            "where ORDERKEY in (select distinct ORDERKEY from ORDERDETAIL (nolock) where OPENQTY > 0 AND STATUS != '95') ) ";
 
 
     private static final String HEADER_SELECT = "select  sum(kol_strok) as TASK_PLAN, sum(fact_task) as TASK_FAKT, " +

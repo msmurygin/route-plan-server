@@ -4,6 +4,8 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Repository;
 import ru.ltmanagement.user.dto.UserDto;
 
@@ -87,9 +89,10 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public UserDto getUser() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         UserDto userDTO = UserDto.builder().build();
-        userDTO.setLoginId("ltm");
-        userDTO.setAdmin(isAdmin(userDTO.getLoginId()));
+        userDTO.setLoginId(auth.getPrincipal().toString());
+        userDTO.setAdmin(auth.getAuthorities().stream().anyMatch(authority -> authority.getAuthority()      .equals("ROLE_ADMIN")));
         return userDTO;
     }
 
