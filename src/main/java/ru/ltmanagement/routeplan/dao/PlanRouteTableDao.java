@@ -31,8 +31,10 @@ public class PlanRouteTableDao {
     private static final String DELIVERY_DATE_BETWEEN = " DELIVERYDATE between :startDate and :endDate ";
     private static final String DELIVERY_DATE = " DELIVERYDATE >= :startDate ";
     private static final String NOT_FINISHED_TASK_SQL =" EXTERNALLOADID in (select distinct EXTERNALLOADID from PLAN_ROUTE_ORDER_LIST " +
-            "where ORDERKEY in (select distinct ORDERKEY from ORDERDETAIL (nolock) where OPENQTY > 0 AND STATUS != '95') ) ";
+            "where ORDERKEY in (select distinct ORDERKEY from ORDERDETAIL (nolock) where OPENQTY > 0 ) ) ";
 
+    private static final String EXCLUDE_SHIPPED_ORDERS = "AND  EXTERNALLOADID in (select distinct EXTERNALLOADID from PLAN_ROUTE_ORDER_LIST " +
+            "where ORDERKEY in (select distinct ORDERKEY from ORDERS (nolock) where STATUS < '95') )  ";
 
     private static final String HEADER_SELECT = "select  sum(kol_strok) as TASK_PLAN, sum(fact_task) as TASK_FAKT, " +
             "sum(kol_strok)-sum(fact_task) as TASK_OST, sum(plan_wgt) as WGT_PLAN, sum(STDGROSSWGT) as WGT_FACT, " +
@@ -188,6 +190,8 @@ public class PlanRouteTableDao {
                     }
                 }
             }
+
+            WHERE += EXCLUDE_SHIPPED_ORDERS;
         }
 
         if (!req.getOrderType().isEmpty()){
